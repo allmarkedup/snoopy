@@ -86,6 +86,17 @@ a.bookmarklet:hover {
     background: #111;
 }
 
+#snoopycode {
+    border: 1px solid #DDD;
+    padding: 10px;
+    width: 500px;
+    height: 150px;
+    margin: 10px 0;
+    color: #888;
+    font-family: monospace;
+    font-size: 11px;
+}
+
 #coda {
     border-top: 1px solid #CCC;
     margin-top: 20px;
