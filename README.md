@@ -1,17 +1,19 @@
 Snoopy
 =======
 
-Snoopy is a view-source and page info bookmarklet for mobile browsers, where it's not so easy to 'view source' to poke around under the hood of pages. Provides page source, generated source and an overview panel that surfaces page items of interest at a glance.
+Snoopy is a bookmarklet for snooping on web pages. It's intended for use on mobile browsers where you can't view-source to poke around under the hood of sites to see how they're built, but you might find it useful for your desktop browser too.
 
-It's potentially useful in desktop based browsers as a quick view-source alternative.
+Using the bookmarklet will give you an overlay that shows you information such as what Doctype the page has, what JS libraries are used in the page, what analytics, etc. It also gives you the ability to view the raw and/or generated source of the page.
 
-**Snoopy is still under very active development and should not be considered stable as yet!**
+**Please note that Snoopy is still very much under active development and shouldn't be considered as stable yet... you have been warned.**
 
+For full details and installation instructions please see (http://allmarkedup.github.com/snoopy/)[http://allmarkedup.github.com/snoopy/]
 
 Browser Support
 ---------------
 
-This is intended to be used in Mobile Safari-based browsers, although it should work in other modern browsers.
+This is intended to be used in modern, mobile browsers, although it's intended to work in modern *desktop* browsers too.
+At the moment it is only really being actively tested in Mobile Safari, although I'll hopefully get some more complete browser testing done at some point soon.
 I am not currently intending to support any versions of IE (although IE9 *may* be supported in the future... but don't hold your breath).
 
 
