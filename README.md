@@ -7,7 +7,7 @@ Using the bookmarklet will give you an overlay that shows you information such a
 
 **Please note that Snoopy is still very much under active development and shouldn't be considered as stable yet... you have been warned.**
 
-For full details and installation instructions please see (http://allmarkedup.github.com/snoopy/)[http://allmarkedup.github.com/snoopy/]
+For full details and installation instructions please see (http://snoopy.allmarkedup.com)[http://snoopy.allmarkedup.com/]
 
 Browser Support
 ---------------
