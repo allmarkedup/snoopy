@@ -12,7 +12,7 @@
         
     config = {
         NAME            : 'Snoopy',
-        VERSION         : '0.1 alpha',
+        VERSION         : '0.1',
         START_OFFSET    : { top : '20px', left : '20px' }
     };
     
@@ -43,6 +43,7 @@
             el.html(tim(templates.snoopy, {
                         name             : config.NAME,
                         modules          : this.modules_html,
+                        version          : config.VERSION,
                         generated_source : this.gen_source
                     }));
                     
@@ -310,7 +311,7 @@
     </div>\
 </div>\
 <div class=\"footer\">\
-    <p><a href=\"http://github.com/allmarkedup/Snoopy\">Snoopy <span class=\"version\">v0.1 alpha</span></a>. Created by <a href=\"http://allmarkedup.com/\">Mark Perkins</a>.</p>\
+    <p><a href=\"http://github.com/allmarkedup/Snoopy\">Snoopy <span class=\"version\">v{{version}}</span></a>. Created by <a href=\"http://allmarkedup.com/\">Mark Perkins</a>.</p>\
 </div>",
 
     module : "\
