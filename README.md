@@ -1,7 +1,7 @@
 Snoopy
 =======
 
-Snoopy is a view-source and page info bookmarklet for Mobile Safari-based browsers, where it's not so easy to 'view source' to poke around under the hood of pages. Provides page source, generated source and an overview panel that surfaces page items of interest at a glance.
+Snoopy is a view-source and page info bookmarklet for mobile browsers, where it's not so easy to 'view source' to poke around under the hood of pages. Provides page source, generated source and an overview panel that surfaces page items of interest at a glance.
 
 It's potentially useful in desktop based browsers as a quick view-source alternative.
 
