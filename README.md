@@ -36,5 +36,6 @@ Ideas/things to add/things to do
 * Syntax highlighting on source code
 * Microformat detection
 * Make Snoopy window drag-able
+* Ajax-powered HTML validation
 
 
