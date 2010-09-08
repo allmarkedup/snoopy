@@ -10,61 +10,68 @@
 </head>
 <body>
     
-    <h1>Snoopy <span class="version">v0.1</span></h1>
+    <a id="forkme" href="http://github.com/allmarkedup/Snoopy"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
     
-    <div class="intro">
-        
-        <p>Snoopy is a bookmarklet for snooping on web pages. It's intended for use on mobile browsers where you can't view-source to poke around under the hood of sites to see how they're built, but you might find it useful for your desktop browser too.</p>
+    <div id="content">
     
-        <p>Using the bookmarklet will give you an overlay that shows you information such as what Doctype the page has, what JS libraries are used in the page, what analytics, etc. It also gives you the ability to view the raw and/or generated source of the page.</p>
+        <h1>Snoopy <span class="version">v0.1</span></h1>
+    
+        <div class="intro">
         
-        <p class="note">Please note that Snoopy is still very much under active development and shouldn't be considered as stable yet... you have been warned.</p>
+            <p>Snoopy is a bookmarklet for snooping on web pages. It's intended for use on mobile browsers where you can't view-source to poke around under the hood of sites to see how they're built, but you might find it useful for your desktop browser too.</p>
+    
+            <p>Using the bookmarklet will give you an overlay that shows you information such as what Doctype the page has, what JS libraries are used in the page, what analytics, etc. It also gives you the ability to view the raw and/or generated source of the page.</p>
+        
+            <p class="note">Please note that Snoopy is still very much under active development and shouldn't be considered as stable yet... you have been warned.</p>
 
-    </div>
+        </div>
     
-    <p id="getsnoopy">The Snoopy bookmarklet (click to try!): <a class="bookmarklet" href="javascript:(function()%7Bvar%20d%3Ddocument%2Cs%2Ce%3Bvar%20el%3Dd.getElementById('snpy')%3Bif(el)%7Bel.className%3D%2Fclosed%2F.test(el.className)%3Fel.className.replace('closed'%2C'')%3Ael.className%2B'%20closed'%3Breturn%7Ds%3Dd.createElement('link')%3Bs.setAttribute('href'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.css')%3Bs.setAttribute('rel'%2C'stylesheet')%3Bs.setAttribute('type'%2C'text%2Fcss')%3Bd.getElementsByTagName('head')%5B0%5D.appendChild(s)%3Be%3Dd.createElement('script')%3Be.setAttribute('src'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.js')%3Bd.getElementsByTagName('body')%5B0%5D.appendChild(e)%7D)()%3B">Snoopy</a></p>
+        <p id="getsnoopy">The Snoopy bookmarklet (click to try!): <a class="bookmarklet" href="javascript:(function()%7Bvar%20d%3Ddocument%2Cs%2Ce%3Bvar%20el%3Dd.getElementById('snpy')%3Bif(el)%7Bel.className%3D%2Fclosed%2F.test(el.className)%3Fel.className.replace('closed'%2C'')%3Ael.className%2B'%20closed'%3Breturn%7Ds%3Dd.createElement('link')%3Bs.setAttribute('href'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.css')%3Bs.setAttribute('rel'%2C'stylesheet')%3Bs.setAttribute('type'%2C'text%2Fcss')%3Bd.getElementsByTagName('head')%5B0%5D.appendChild(s)%3Be%3Dd.createElement('script')%3Be.setAttribute('src'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.js')%3Bd.getElementsByTagName('body')%5B0%5D.appendChild(e)%7D)()%3B">Snoopy</a></p>
     
-    <h2>Installation - Mobile Safari</h2>
+        <h2>Installation - Mobile Safari</h2>
     
-    <p>The easiest way is to open up desktop Safari, drag the bookmarklet above to the bookmarks bar, and then either use MobileMe or standard USB bookmark syncing to your iDevice.</p>
+        <p>The easiest way is to open up desktop Safari, drag the bookmarklet above to the bookmarks bar, and then either use MobileMe or standard USB bookmark syncing to your iDevice.</p>
     
-    <p>Alternatively, if you don't like syncing, you can do it the hard way&hellip;</p>
+        <p>Alternatively, if you don't like syncing, you can do it the hard way&hellip;</p>
     
-    <ol>
-        <li>Visit this page in Mobile Safari.</li>
-        <li>Touch and hold the bookmarklet above until an overlay of option buttons comes up. Select the 'Copy' option to copy the contents of the bookmarklet.</li>
-        <li>Click the '+' button on the menu bar and click the 'Add Bookmark' button.</li>
-        <li>Change the top field (the Title field) to 'Snoopy' or whatever you want.</li>
-        <li>(I'd recommend adding this to the Bookmarks Bar at this point, too)</li>
-        <li>Click the 'Save' button.</li>
-        <li>Take a deep breath. You're halfway there.</li>
-        <li>Now click on the little book icon in the menu bar to bring up your bookmarks. Navigate to the folder that you saved the Snoopy bookmark in.</li>
-        <li>Click the 'Edit' button and then tap on the bookmark you just created to edit it.</li>
-        <li>Now select the second field from the top (the Address field), clear it out and paste the link you copied at the start into the field.</li>
-        <li>Hit the 'Done' button to save, and you're all set!</li>
-    </ol>
+        <ol>
+            <li>Visit this page in Mobile Safari.</li>
+            <li>Touch and hold the bookmarklet above until an overlay of option buttons comes up. Select the 'Copy' option to copy the contents of the bookmarklet.</li>
+            <li>Click the '+' button on the menu bar and click the 'Add Bookmark' button.</li>
+            <li>Change the top field (the Title field) to 'Snoopy' or whatever you want.</li>
+            <li>(I'd recommend adding this to the Bookmarks Bar at this point, too)</li>
+            <li>Click the 'Save' button.</li>
+            <li>Take a deep breath. You're halfway there.</li>
+            <li>Now click on the little book icon in the menu bar to bring up your bookmarks. Navigate to the folder that you saved the Snoopy bookmark in.</li>
+            <li>Click the 'Edit' button and then tap on the bookmark you just created to edit it.</li>
+            <li>Now select the second field from the top (the Address field), clear it out and paste the link you copied at the start into the field.</li>
+            <li>Hit the 'Done' button to save, and you're all set!</li>
+        </ol>
             
 
-    <h2>Installation - Desktop Browsers</h2>
+        <h2>Installation - Desktop Browsers</h2>
     
-    <p>Simply drag the bookmarklet above to your bookmarks bar and you're done.</p>
+        <p>Simply drag the bookmarklet above to your bookmarks bar and you're done.</p>
     
-    <h2>Planned for the future...</h2>
+        <h2>Planned for the future...</h2>
     
-    <ul>
-        <li>Lots more tests for other JS libraries, analytics, etc</li>
-        <li>Microformat detection &amp; parsing</li>
-        <li>Syntax highlighted source code</li>
-        <li>Draggable window</li>
-        <li>HTML source validation</li>
-        <li>And more...</li>
-    </ul>
+        <ul>
+            <li>Lots more tests for other JS libraries, analytics, etc</li>
+            <li>Microformat detection &amp; parsing</li>
+            <li>Syntax highlighted source code</li>
+            <li>Draggable window</li>
+            <li>HTML source validation</li>
+            <li>And more...</li>
+        </ul>
     
-    <div id="coda">
+        <div id="coda">
         
-        <p>Snoopy was created by <a href="htp://allmarkedup.com">Mark Perkins</a>. You can fork the <a href="http://github.com/allmarkedup/snooopy">source code on GitHub</a>.</p>
+            <p>Snoopy was created by <a href="htp://allmarkedup.com">Mark Perkins</a>. You can fork the <a href="http://github.com/allmarkedup/snooopy">source code on GitHub</a>.</p>
         
+        </div>
+                
     </div>
+
 
 </body> 
 </html>
