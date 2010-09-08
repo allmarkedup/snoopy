@@ -1,0 +1,83 @@
+/* Snoopy overview page
+============================================== */
+
+html {
+    background: #444;
+}
+
+body {
+    margin: 30px auto;    
+    width: 600px;
+    padding:  15px 20px;
+    background: #FFF;
+    font-size: 15px;
+    font-family: Georgia, Palatino, serif;
+    line-height: 1.3;
+    -webkit-border-radius: 10px;
+    color: #444;
+}
+
+h1 {
+    font-size: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+.intro p {
+/*    font-size: 16px;
+    color: #111;*/
+}
+
+p.note {
+    padding: 10px;
+    text-align: center;
+    background: #FED3D3;
+    color: #773535;
+}
+
+ol, ul {
+    margin-left: 25px;
+}
+
+li {
+    margin-bottom: 6px;
+}
+
+#getsnoopy {
+    background: #EEE;
+    padding: 15px 10px;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    margin: 20px 0;
+}
+
+a.bookmarklet {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #333;
+    color: #FFF;
+    margin-left: 10px;
+   -webkit-border-radius: 10px;
+   text-decoration: none;
+}
+
+a.bookmarklet:hover {
+    background: #111;
+}
+
+#coda {
+    border-top: 1px solid #CCC;
+    margin-top: 20px;
+    padding-top: 20px;
+    font-size: 12px;
+}

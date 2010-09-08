@@ -1,80 +1,70 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>allmarkedup/Snoopy @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #000000;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #ffffff; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #ffffff; }
-    h3 { text-align: center; color: #ffffff; }
-    a { color: #ffffff; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" href="css/base.css" media="all">
+    <link rel="stylesheet" href="css/main.css" media="all">
+    
+    <title>Snoopy | View-source and page info bookmarklet</title>
 </head>
-
 <body>
-  <a href="http://github.com/allmarkedup/Snoopy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+    
+    <h1>Snoopy <span class="version">v0.1</span></h1>
+    
+    <div class="intro">
+        
+        <p>Snoopy is a bookmarklet for snooping on web pages. It's intended for use on mobile browsers where you can't view-source to poke around under the hood of sites to see how they're built, but you might find it useful for your desktop browser too.</p>
+    
+        <p>Using the bookmarklet will give you an overlay that shows you information such as what Doctype the page has, what JS libraries are used in the page, what analytics, etc. It also gives you the ability to view the raw and/or generated source of the page.</p>
+        
+        <p class="note">Please note that Snoopy is still very much under active development and shouldn't be considered as stable yet... you have been warned.</p>
 
-  <div id="container">
+    </div>
+    
+    <p id="getsnoopy">The Snoopy bookmarklet (click to try!): <a class="bookmarklet" href="javascript:(function()%7Bvar%20d%3Ddocument%2Cs%2Ce%3Bvar%20el%3Dd.getElementById('snpy')%3Bif(el)%7Bel.className%3D%2Fclosed%2F.test(el.className)%3Fel.className.replace('closed'%2C'')%3Ael.className%2B'%20closed'%3Breturn%7Ds%3Dd.createElement('link')%3Bs.setAttribute('href'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.css')%3Bs.setAttribute('rel'%2C'stylesheet')%3Bs.setAttribute('type'%2C'text%2Fcss')%3Bd.getElementsByTagName('head')%5B0%5D.appendChild(s)%3Be%3Dd.createElement('script')%3Be.setAttribute('src'%2C'http%3A%2F%2Fsnoopy-js.s3.amazonaws.com%2Fsnoopy.js')%3Bd.getElementsByTagName('body')%5B0%5D.appendChild(e)%7D)()%3B">Snoopy</a></p>
+    
+    <h2>Installation - Mobile Safari</h2>
+    
+    <p>The easiest way is to open up desktop Safari, drag the bookmarklet above to the bookmarks bar, and then either use MobileMe or standard USB bookmark syncing to your iDevice.</p>
+    
+    <p>Alternatively, if you don't like syncing, you can do it the hard way&hellip;</p>
+    
+    <ol>
+        <li>Visit this page in Mobile Safari.</li>
+        <li>Touch and hold the bookmarklet above until an overlay of option buttons comes up. Select the 'Copy' option to copy the contents of the bookmarklet.</li>
+        <li>Click the '+' button on the menu bar and click the 'Add Bookmark' button.</li>
+        <li>Change the top field (the Title field) to 'Snoopy' or whatever you want.</li>
+        <li>(I'd recommend adding this to the Bookmarks Bar at this point, too)</li>
+        <li>Click the 'Save' button.</li>
+        <li>Take a deep breath. You're halfway there.</li>
+        <li>Now click on the little book icon in the menu bar to bring up your bookmarks. Navigate to the folder that you saved the Snoopy bookmark in.</li>
+        <li>Click the 'Edit' button and then tap on the bookmark you just created to edit it.</li>
+        <li>Now select the second field from the top (the Address field), clear it out and paste the link you copied at the start into the field.</li>
+        <li>Hit the 'Done' button to save, and you're all set!</li>
+    </ol>
+            
 
-    <div class="download">
-      <a href="http://github.com/allmarkedup/Snoopy/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/allmarkedup/Snoopy/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    <h2>Installation - Desktop Browsers</h2>
+    
+    <p>Simply drag the bookmarklet above to your bookmarks bar and you're done.</p>
+    
+    <h2>Planned for the future...</h2>
+    
+    <ul>
+        <li>Lots more tests for other JS libraries, analytics, etc</li>
+        <li>Microformat detection &amp; parsing</li>
+        <li>Syntax highlighted source code</li>
+        <li>Draggable window</li>
+        <li>HTML source validation</li>
+        <li>And more...</li>
+    </ul>
+    
+    <div id="coda">
+        
+        <p>Snoopy was created by <a href="htp://allmarkedup.com">Mark Perkins</a>. You can fork the <a href="http://github.com/allmarkedup/snooopy">source code on GitHub</a>.</p>
+        
     </div>
 
-    <h1><a href="http://github.com/allmarkedup/Snoopy">Snoopy</a>
-      <span class="small">by <a href="http://github.com/allmarkedup">allmarkedup</a></span></h1>
-
-    <div class="description">
-      View-source and page info bookmarklet for Mobile Safari-based browsers.
-    </div>
-
-    <h2>Authors</h2>
-<p>Mark Perkins (mark@allmarkedup.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Mark Perkins (mark@allmarkedup.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/allmarkedup/Snoopy/zipball/master">zip</a> or
-      <a href="http://github.com/allmarkedup/Snoopy/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/allmarkedup/Snoopy</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/allmarkedup/Snoopy">allmarkedup/Snoopy</a>
-    </div>
-
-  </div>
-
-  
-</body>
+</body> 
 </html>
