@@ -36,8 +36,6 @@
             el.style('top', this.position.top, true);
             el.style('left', this.position.left, true);
 
-            this.setMaxWidth();
-            
             this.runModules();
             this.getRawSource();
             this.getGeneratedSource();
@@ -49,7 +47,8 @@
                     }));
                     
             $(body).append(el);
-
+            
+            this.setMaxDimensions();
             this.bindEvents();
         },
                     
@@ -102,7 +101,7 @@
             });
             
             $(window).bind('resize', function(){
-                self.setMaxWidth();
+                self.setMaxDimensions();
             });
             
             // tabs & panels
@@ -126,10 +125,11 @@
             for ( var d, i = -1; d = this.bind_stack[++i]; ) d();
         },
         
-        setMaxWidth : function()
+        setMaxDimensions : function()
         {
             viewport = getViewportDimensions();
             this.elem.style('max-width', (viewport.width - parseInt(config.START_OFFSET.left)*2)+'px', true);
+            $('#snpy pre.source').style('max-height', (viewport.height - 140 - parseInt(config.START_OFFSET.top)*2)+'px', true);
         }
 
     };

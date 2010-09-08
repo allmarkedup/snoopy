@@ -198,7 +198,7 @@
     width: 100%;
     line-height: 1.3 !important;
     font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace !important;
-    overflow-y: auto !important;
+    overflow: auto !important;
     white-space: pre-wrap !important; 
     white-space: -moz-pre-wrap !important;
     padding: 10px 0 !important;
