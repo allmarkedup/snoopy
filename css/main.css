@@ -104,3 +104,11 @@ a.bookmarklet:hover {
     font-size: 12px;
     color: #888;
 }
+
+@media only (max-device-width: 480px) {
+    
+    #forkme {
+        display: none;
+    }
+        
+}
