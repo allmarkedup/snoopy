@@ -51,10 +51,10 @@ input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
 label, input[type=button], input[type=submit], button { cursor: pointer; }
 
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background: #FF5E99; color: #fff; text-shadow: none; } 
+::-moz-selection{ background: #6da7e1; color:#fff; text-shadow: none; }
+::selection { background: #6da7e1; color: #fff; text-shadow: none; } 
 
-a:link { -webkit-tap-highlight-color: #FF5E99; } 
+a:link { -webkit-tap-highlight-color: #6da7e1; } 
 
 html { overflow-y: scroll; }
 button {  width: auto; overflow: visible; }
