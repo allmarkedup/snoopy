@@ -16,14 +16,14 @@ javascript:(function(){
     
     // append styles
     s = d.createElement('link');
-    s.setAttribute('href','snoopy-assets.allmarkedup.com/snoopy.css');
+    s.setAttribute('href','http://snoopy-assets.allmarkedup.com/snoopy.css');
     s.setAttribute('rel','stylesheet');
     s.setAttribute('type','text/css');
     d.getElementsByTagName('head')[0].appendChild(s);
     
     // append script
     e = d.createElement('script');
-    e.setAttribute('src', 'snoopy-assets.allmarkedup.com/snoopy.js');
+    e.setAttribute('src', 'http://snoopy-assets.allmarkedup.com/snoopy.js');
     d.getElementsByTagName('body')[0].appendChild(e);
     
 })();
