@@ -7,13 +7,17 @@
     var doc     = document,
         body    = doc.body,
         q_cache = {},
+        isMobile = (function(){
+            var ua = navigator.userAgent;
+            return (ua.match(/iPhone/i) || ua.match(/iPod/i) || ua.match(/iPad/i)) ? true : false;
+        })(),
         viewport = getViewportDimensions(),
         snoopy, modules, config, templates, snoopQuery;
         
     config = {
         NAME            : 'Snoopy',
         VERSION         : '0.1',
-        START_OFFSET    : { top : '20px', left : '20px' }
+        START_OFFSET    : { top : '0', left : '0' }
     };
     
     snoopy = {
@@ -33,8 +37,16 @@
 
             el.attr('id', 'snpy').addClass('cleanslate');
             
+            if ( isMobile ) el.addClass('MobileSafari');
+            
             el.style('top', this.position.top, true);
             el.style('left', this.position.left, true);
+            
+            if ( viewport.width == 320 || viewport.width == 480 )
+            {
+                body.scrollTop = 0;
+                hideURLBar();  
+            } 
 
             this.runModules();
             this.getRawSource();
@@ -129,8 +141,21 @@
         setMaxDimensions : function()
         {
             viewport = getViewportDimensions();
-            this.elem.style('max-width', (viewport.width - parseInt(config.START_OFFSET.left)*2)+'px', true);
-            $('#snpy pre.source').style('max-height', (viewport.height - 140 - parseInt(config.START_OFFSET.top)*2)+'px', true);
+            if ( isMobile ) this.elem.style('max-width', (viewport.width - parseInt(config.START_OFFSET.left)*2)+'px', true);
+            // if it is a mobile-optimised site, don't try and fit the source size to screen as it won't work properly
+            if ( viewport.width != 320 && viewport.width != 480 )
+            {
+                // TODO: really need to implement some proper browser capability and type detection instead of one-off tests like this
+                $('#snpy pre.source').style('max-height', (viewport.height - 180 - parseInt(config.START_OFFSET.top)*2)+'px', true);   
+            }
+            else if (viewport.width == 320)
+            {
+                $('#snpy pre.source').style('height', '300px', true);
+            }
+            else if (viewport.width == 480)
+            {
+                $('#snpy pre.source').style('height', '150px', true);
+            }
         }
 
     };
@@ -302,12 +327,16 @@
     <ul class=\"menu tabs\">\
         <li class=\"active\"><a href=\"#snpy_overview\">Overview</a></li>\
         <li><a href=\"#snpy_rawsource\">View Source</a></li>\
-        <li><a href=\"#snpy_gensource\">View Generated Source</a></li>\
+        <li><a href=\"#snpy_gensource\"><span class=\"no320\">View</span> Generated Source</a></li>\
     </ul>\
     <div class=\"panels\">\
         <div id=\"snpy_overview\" class=\"panel active\">{{modules}}</div>\
-        <div id=\"snpy_rawsource\" class=\"panel\"><pre class=\"source raw\"><code class=\"html\">loading source code...</code></pre></div>\
-        <div id=\"snpy_gensource\" class=\"panel\"><pre class=\"source generated\"><code class=\"html\">{{generated_source}}</code></pre></div>\
+        <div id=\"snpy_rawsource\" class=\"panel\">\
+<p class=\"tip MobileSafari\">Tip: Use a two fingered drag to scroll the code.</p>\
+        <pre class=\"source raw\"><code class=\"html\">loading source code...</code></pre></div>\
+        <div id=\"snpy_gensource\" class=\"panel\">\
+<p class=\"tip MobileSafari\">Tip: Use a two fingered drag to scroll the code.</p>\
+<pre class=\"source generated\"><code class=\"html\">{{generated_source}}</code></pre></div>\
     </div>\
 </div>\
 <div class=\"footer\">\
@@ -754,6 +783,15 @@
 
         return first;
     }
+    
+    /// some iphone/ipod/ipad specific helpers
+    
+    function hideURLBar()
+    {
+		setTimeout(function() {
+			window.scrollTo(0, 1);
+		}, 0);
+	}
     
     // kick things off...
         

@@ -24,9 +24,10 @@
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
+    margin: 1% !important;
     -webkit-border-radius: 6px !important;
-    z-index: 10000 !important;
-    max-width: 90% !important;
+    z-index: 2147483647 !important; /* maximum cross-browser z-index */
+    max-width: 98% !important;
 }
 
 #snpy > div {
@@ -42,10 +43,6 @@
 #snpy a:hover,
 #snpy a:active {
     color: #FFA800 !important;  
-}
-
-#snpy .body {
-    min-width: 400px !important;
 }
 
 /* head */
@@ -65,10 +62,6 @@
     color: #FFA800 !important;
     font-family: Georgia, Palatino, 'Palatino Linotype', serif !important;
     padding-top: 2px !important;
-}
-
-#snpy h1:before {
-/*    content : '\272D \00a0' !important;*/
 }
 
 #snpy h1 .version {
@@ -99,6 +92,21 @@
 
 #snpy .head .close:before {
     content: "\2715 \00a0" !important;
+}
+
+/* platform/device specific tips */
+
+#snpy .tip {
+    font-size: 12px !important;
+    font-style: italic !important;
+    margin-bottom: 10px !important;
+    font-family: Georgia, Palatino, 'Palatino Linotype', serif !important;
+    color: #888 !important;
+    display: none !important;
+}
+
+#snpy.MobileSafari .tip.MobileSafari {
+    display: block !important;
 }
 
 /* tabs and panels */
@@ -140,7 +148,7 @@
 #snpy .module {
     margin-bottom: 10px !important;
     padding: 5px 0 0 0 !important;
-    width: 380px !important;
+    overflow: hidden;
 }
 
 #snpy .module h2 {
@@ -155,10 +163,15 @@
     font-style: italic !important;
 }
 
+#snpy_overview {
+    max-width: 400px !important;
+}
+
 /* key/val pair lists */
 
 #snpy dt {
     display: inline-block !important;
+    float: left !important;
     width: 100px !important;
     margin-bottom: 8px !important;
     color: #888 !important;
@@ -166,16 +179,20 @@
 
 #snpy dd {
     display: inline-block !important;
-    width: 260px !important;
     margin-bottom: 8px !important;
+    width: 260px !important;
 }
 
 /* test result lists */
 
+#snpy .tests {
+    overflow: hidden !important;
+}
+
 #snpy .tests li {
     margin-bottom: 8px !important;
-    width: 180px !important;
     display: inline-block !important;
+    min-width: 180px !important;
 }
 
 #snpy .tests li.negative {
@@ -195,18 +212,21 @@
 #snpy pre.source {
     background: #FFF !important;
     color: #333 !important;
-    width: 100%;
+    width: 98%;
     line-height: 1.3 !important;
     font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace !important;
     overflow: auto !important;
     white-space: pre-wrap !important; 
     white-space: -moz-pre-wrap !important;
-    padding: 10px 0 !important;
+    padding: 10px 1% !important;
+    display: block !important;
 }
 
 #snpy pre.source code {
+    padding: 0 10px !important;
     white-space: pre-wrap !important; 
     white-space: -moz-pre-wrap !important;
+    display: block !important; 
 }
 
 /* footer */
@@ -226,3 +246,69 @@
 #snpy .footer a:hover {
     color: #888 !important;
 }
+
+/* Styles for mobile-optimised sites
+============================================== */
+
+/* TODO: lots of overlap here, need to implement this more efficiently... */
+
+@media only screen and (max-width: 320px) {
+    
+    #snpy {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    #snpy h1 {
+        margin-left: 10px !important;
+    }
+    
+    #snpy > div {
+        margin: 0 5px !important;
+    }
+    
+    #snpy_overview {
+        max-width: 300px !important;
+    }
+        
+    #snpy pre.source code {
+        width: auto !important;
+        font-size: 12px !important;
+    }
+    
+    #snpy .no320 {
+        display: none !important;
+    }
+    
+}
+
+@media only screen and (max-width: 480px) {
+    
+    #snpy {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    #snpy h1 {
+        margin-left: 10px !important;
+    }
+    
+    #snpy > div {
+        margin: 0 5px !important;
+    }
+    
+    #snpy_overview {
+        max-width: 460px !important;
+    }
+    
+    #snpy pre.source code {
+        width: auto !important;
+        font-size: 11px !important;
+    }
+    
+    #snpy .no480 {
+        display: none !important;
+    }
+    
+}
+
