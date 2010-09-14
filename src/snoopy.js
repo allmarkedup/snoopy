@@ -1,6 +1,9 @@
+// Snoopy - View-source and page info bookmarklet for Mobile Safari-based browsers
+// Written by Mark Perkins, mark@allmarkedup.com
+// License: http://unlicense.org/ (i.e. do what you want with it!)
 
 ;(function( window, document, undefined ){
-
+    
     var doc     = document,
         body    = doc.body,
         q_cache = {},
@@ -10,22 +13,22 @@
         })(),
         viewport = getViewportDimensions(),
         snoopy, modules, config, templates, snoopQuery;
-
+        
     config = {
         NAME            : 'Snoopy',
         VERSION         : '0.1',
         START_OFFSET    : { top : '0', left : '0' }
     };
-
+    
     snoopy = {
-
+        
         elem            : null,
         modules_html    : '',
         raw_source      : '',
         gen_source      : '',
         bind_stack      : [],
         position        : config.START_OFFSET,
-
+        
         init : function()
         {
             var self = this,
@@ -33,17 +36,17 @@
                 snpy;
 
             el.attr('id', 'snpy').addClass('cleanslate');
-
+            
             if ( isMobile ) el.addClass('MobileSafari');
-
+            
             el.style('top', this.position.top, true);
             el.style('left', this.position.left, true);
-
+            
             if ( viewport.width == 320 || viewport.width == 480 )
             {
                 body.scrollTop = 0;
-                hideURLBar();
-            }
+                hideURLBar();  
+            } 
 
             this.runModules();
             this.getRawSource();
@@ -55,13 +58,13 @@
                         version          : config.VERSION,
                         generated_source : this.gen_source
                     }));
-
+                    
             $(body).append(el);
-
+            
             this.setMaxDimensions();
             this.bindEvents();
         },
-
+                    
         runModules : function( module_name, result )
         {
             for ( m in modules )
@@ -74,12 +77,12 @@
                                             module_body  : result.content,
                                             module_id    : m
                                         });
-
+                                        
                     if ( typeof modules[m].bind === 'function' ) bind_stack.push(modules[m].bind);
                 }
             }
         },
-
+        
         getRawSource : function()
         {
             var self = this;
@@ -90,33 +93,35 @@
                      self.raw_source = prepSource(data);
                      $('#snpy_rawsource code.html').html(self.raw_source);
                 }
-            });
+            }); 
         },
-
+        
         getGeneratedSource : function()
         {
             this.gen_source = prepSource(doc.documentElement.innerHTML.toString());
         },
-
+        
         bindEvents : function( bindStack )
         {
             var self = this,
                 el   = this.elem;
-
-
+            
+            //////////// general snoopy events ////////////
+            
             $('#snpy .close').bind('click', function(){
                 el.addClass('closed');
                 return false;
             });
-
+            
             $(window).bind('resize', function(){
                 self.setMaxDimensions();
             });
-
-
+            
+            // tabs & panels
+            
             var tabs = $('#snpy .menu li'),
                 panels = $('#snpy .panel');
-
+            
             tabs.each(function(){
                 $(this).bind('click', function(e){
                     var self = $(this);
@@ -125,20 +130,23 @@
                     self.addClass('active');
                     $($(e.target).attr('href')).addClass('active');
                     return false;
-                 });
+                 }); 
              });
-
-
+            
+            //////////// module-specific events ////////////
+            
             for ( var d, i = -1; d = this.bind_stack[++i]; ) d();
         },
-
+        
         setMaxDimensions : function()
         {
             viewport = getViewportDimensions();
             if ( isMobile ) this.elem.style('max-width', (viewport.width - parseInt(config.START_OFFSET.left)*2)+'px', true);
+            // if it is a mobile-optimised site, don't try and fit the source size to screen as it won't work properly
             if ( viewport.width != 320 && viewport.width != 480 )
             {
-                $('#snpy pre.source').style('max-height', (viewport.height - 180 - parseInt(config.START_OFFSET.top)*2)+'px', true);
+                // TODO: really need to implement some proper browser capability and type detection instead of one-off tests like this
+                $('#snpy pre.source').style('max-height', (viewport.height - 180 - parseInt(config.START_OFFSET.top)*2)+'px', true);   
             }
             else if (viewport.width == 320)
             {
@@ -151,7 +159,7 @@
         }
 
     };
-
+    
     /*
      * Modules display content in the 'overview' tab.
      * Each module must return a JSON object with the following definition:
@@ -160,41 +168,43 @@
      *
      */
     modules = {
-
+        
         pageinfo : {
-
-
+            
+            // NOTE: doesn't check for MathML or SVG doctypes. Not sure it is worth including these?
+            
             doctypes : [
-
-
+            
+                // source: http://www.w3.org/QA/2002/04/valid-dtd-list.html
+            
                 { publicId : '-//W3C//DTD HTML 4.01//EN', desc : 'HTML 4.01 Strict' },
                 { publicId : '-//W3C//DTD HTML 4.01 Transitional//EN', desc : 'HTML 4.01 Transitional' },
                 { publicId : '-//W3C//DTD HTML 4.01 Frameset//EN', desc : 'HTML 4.01 Frameset' },
-
+                
                 { publicId : '-//W3C//DTD XHTML 1.0 Strict//EN', desc : 'XHTML 1.0 Strict' },
                 { publicId : '-//W3C//DTD XHTML 1.0 Transitional//EN', desc : 'XHTML 1.0 Transitional' },
                 { publicId : '-//W3C//DTD XHTML 1.0 Frameset//EN', desc : 'XHTML 1.0 Frameset' },
-
+                  
                 { publicId : '-//W3C//DTD XHTML 1.1//EN', desc : 'XHTML 1.1' },
-
+                  
                 { publicId : '-//IETF//DTD HTML 2.0//EN', desc : 'HTML 2.0' },
                 { publicId : '-//W3C//DTD HTML 3.2 Final//EN', desc : 'HTML 3.0' },
                 { publicId : '-//W3C//DTD XHTML Basic 1.0//EN', desc : 'XHTML 1.0 Basic' },
-
+                
                 { publicId : '', desc : 'HTML5' }
-
+                
             ],
-
+            
             getDoctype : function()
             {
                 var doctype  = document.doctype,
                     definition = 'None detected';
 
                 if ( doctype )
-                {
+                {   
                     var type     = doctype.name,
                         publicId = doctype.publicId;
-
+                        
                     if ( type.toLowerCase() === 'html' )
                     {
                         for ( var d, i = -1; d = this.doctypes[++i]; )
@@ -213,25 +223,25 @@
                 }
                 return '<dt>Doctype:</dt> <dd>'+definition+'</dd>';
             },
-
+            
             getCharset : function()
             {
                 return '<dt>Character Set:</dt> <dd>'+document.characterSet+'</dd>';
             },
-
+            
             run : function()
-            {
+            {                
                 var content = this.getDoctype() + this.getCharset();
-
+                
                 return {
                     name    : 'General Page Information',
                     content : '<dl>'+content+'</dl>'
                 }
             }
         },
-
+        
         jslibs : {
-
+            
             libs : [
                 {
                     name : 'jQuery',
@@ -250,27 +260,27 @@
                     version : function(){ return window.MooTools ? MooTools.version : null; }
                 }
             ],
-
+            
             run : function()
             {
                 var content = '';
-
+                
                 for ( var lib, i = -1; lib = this.libs[++i]; )
                 {
                     var v = lib.version();
                     if ( v ) content += '<li class="positive">'+lib.name+' <span class="version">(v'+v+')</span></li>';
                     else content += '<li class="negative">'+lib.name+'</li>';
                 }
-
+                
                 return {
                     name    : 'JavaScript libraries',
                     content : '<ul class="tests">'+content+'</ul>'
                 }
             }
         },
-
+        
         analytics : {
-
+            
             vendors : [
                 {
                     name : 'Google Analytics',
@@ -285,29 +295,29 @@
                     check : function(){ return window.Piwik }
                 }
             ],
-
+            
             run : function()
             {
                 var content = '';
-
+                
                 for ( var v, i = -1; v = this.vendors[++i]; )
                 {
                     if ( v.check() ) content += '<li class="positive">'+v.name+'</li>';
                     else content += '<li class="negative">'+v.name+'</li>';
                 }
-
+                
                 return {
                     name    : 'Analytics',
                     content : '<ul class="tests">'+content+'</ul>'
                 }
             }
-
+            
         }
-
+        
     };
-
+    
     templates = {
-
+        
         snoopy : "\
 <div class=\"head\">\
     <a class=\"close\" href=\"#\">close</a>\
@@ -340,38 +350,11 @@
 </div>"
 
     };
-
-
-var tim = (function(){
-    var starts  = "{{",
-        ends    = "}}",
-        path    = "[a-z0-9_][\\.a-z0-9_]*", // e.g. config.person.name
-        pattern = new RegExp(starts + "("+ path +")" + ends, "gim"),
-        length  = "length",
-        undef;
-
-    return function(template, data){
-        return template.replace(pattern, function(tag){
-            var ref = tag.slice(starts[length], 0 - ends[length]),
-                path = ref.split("."),
-                len = path[length],
-                lookup = data,
-                i = 0;
-
-            for (; i < len; i++){
-                if (lookup === undef){
-                    break;
-                }
-                lookup = lookup[path[i]];
-
-                if (i === len - 1){
-                    return lookup;
-                }
-            }
-        });
-    };
-}());
-
+    
+    //////////// HELPER FUNCTIONS ////////////////
+    
+    //= require "../lib/tim"
+    
     /*
      * 'snoopQuery' - mini jQuery-style DOM helper functions.
      * Only intended to work in newer browsers (eg. with querySelectorAll support),
@@ -382,12 +365,12 @@ var tim = (function(){
     {
         return new snoopQuery.fn.init(selector);
     }
-
+    
     snoopQuery.fn = snoopQuery.prototype = {
-
+        
         length : 0,
         selector : '',
-
+                
         init : function( selector )
         {
             var elem,
@@ -395,31 +378,33 @@ var tim = (function(){
                 match;
 
             if ( ! selector ) return this;
-
+            
             if ( selector.nodeType )
             {
                 this[0] = selector;
                 this.length = 1;
                 return this;
             }
-
+            
             if ( selector === window )
             {
                this[0] = selector;
                this.length = 1;
                return this;
             }
-
+            
             match = tagExp.exec(selector);
-
+            
             if ( match )
             {
+                // deal with very basic element creation here
                 selector = [doc.createElement(match[1])];
                 merge( this, selector );
                 return this;
             }
             else if ( /^#[\w+]$/.test( selector ) )
             {
+                // ID
                 elem = doc.getElementById(selector);
                 if ( elem )
                 {
@@ -432,6 +417,7 @@ var tim = (function(){
             }
             else if ( /^\w+$/.test( selector ) )
             {
+                // TAG
                 this.selector = selector;
                 this.context = document;
                 selector = document.getElementsByTagName( selector );
@@ -439,29 +425,32 @@ var tim = (function(){
             }
             else if ( typeof selector === 'string' )
             {
+                // else use generic querySelectorAll
                 this.selector = selector;
                 this.context = document;
                 selector = document.querySelectorAll( selector );
                 return merge( this, selector );
             }
-
+                        
             if (selector.selector !== undefined)
             {
                 this.selector = selector.selector;
                 this.context = selector.context;
             }
-
+                        
             return merge( selector, this );
         },
-
+        
+        // internal iterator 
         each : function( callback )
         {
             var i = 0,
                 length = this.length;
-
-            for ( var value = this[0]; i < length && callback.call( value, i, value ) !== false; value = this[++i] ) {}
+            
+            for ( var value = this[0]; i < length && callback.call( value, i, value ) !== false; value = this[++i] ) {}  
         },
-
+        
+        // very simple event binding function
         bind : function( event, callback )
         {
             for ( var i = 0, l = this.length; i < l; i++ )
@@ -488,11 +477,11 @@ var tim = (function(){
             });
             return this;
         },
-
+        
         removeClass : function( value )
         {
             var cn = (value || '').split(/\s/);
-
+            
             this.each(function(){
                 for ( var i = 0, l = cn.length; i < l;  i++ )
                 {
@@ -501,13 +490,14 @@ var tim = (function(){
             });
             return this;
         },
-
+        
         hasClass : function( value )
         {
             return this[0] ? new RegExp('\\b'+value+'\\b').test(this[0].className) : false;
         },
-
-
+        
+        // get/set attributes
+        
         attr : function( key, val )
         {
             if ( val !== undefined )
@@ -522,7 +512,8 @@ var tim = (function(){
                 return this[0] ? this[0].getAttribute( key ) : null;
             }
         },
-
+        
+        // VERY basic HTML function, no cleanup or anything yet.
         html : function( html )
         {
             if ( html !== undefined )
@@ -534,8 +525,9 @@ var tim = (function(){
             }
             return this[0] ? this[0].innerHTML : null;
         },
-
-
+        
+        // DOM insertion methods
+        
         append : function( elem )
         {
             if ( elem !== undefined )
@@ -544,29 +536,32 @@ var tim = (function(){
                 this.each(function(){
                     this.appendChild(elem);
                 });
-                return this;
+                return this; 
             }
         }
-
+    
     };
-
+    
     snoopQuery.fn.init.prototype = snoopQuery.fn;
     $ = snoopQuery;
-
-
+    
+    ////// snoopQuery methods that don't match the jQuery API are implemented as jQuery compatible plugins /////
+    
+    // add important styles inline
     (function() {
-
+        
         var styles_regexp = /([\w-]+)\s*:\s*([^;!]+)\s?(!\s?important?)?\s?[;|$]?/i;
 
         $.fn.style = function( prop, val, important )
         {
             if ( val !== undefined )
             {
+                // setting a value
                 important = important || false;
                 return this.each(function(){
-
+                    
                     var dconst_rules = [];
-
+                    
                     var self = $(this);
                     split(dconst_rules, self.attr('style')); // split up the rules
                     set(dconst_rules, prop, val, important);
@@ -575,14 +570,15 @@ var tim = (function(){
             }
             else
             {
+                // getting a value
                 var self = $(this[0]),
                     dconst_rules = [];
-
+                    
                 split(dconst_rules, self.attr('style')); // split up the rules
                 return get(dconst_rules, prop);
             }
         }
-
+        
         function get( dconst_rules, prop )
         {
             for ( var rule, i = -1; rule = dconst_rules[++i]; )
@@ -595,7 +591,7 @@ var tim = (function(){
         function set( dconst_rules, prop, val, important )
         {
             prop = trim(prop);
-
+            
             for ( var rule, i = -1; rule = dconst_rules[++i]; )
             {
                 if ( prop === rule.prop )
@@ -607,7 +603,7 @@ var tim = (function(){
             }
             dconst_rules.push({ prop : prop, val : val, important : important });
         }
-
+        
         function combine( dconst_rules )
         {
             var rule_string = '';
@@ -625,7 +621,7 @@ var tim = (function(){
             if ( typeof rule_string === 'string' )
             {
                 var rules = rule_string.split(/;/);
-
+   
                 for ( i= 0, l = rules.length; i < l; i++ )
                 {
                     var r = trim(rules[i]);
@@ -637,10 +633,13 @@ var tim = (function(){
                 }
             }
         }
-
+    
     })();
-
-
+    
+    //// Ajax Helper functions //////
+        
+    // Generic ajax helper functions. Could probably be cut down if the only use case turns out
+    // to be for returning the source of the current page (i.e. remove type tests from ajaxData etc)
     function ajax( options )
     {
         options = {
@@ -652,16 +651,16 @@ var tim = (function(){
             onSuccess   : options.onSuccess     || function(){},
             data        : options.data          || ''
         }
-
+        
         var r    = new XMLHttpRequest(),
             done = false;
 
         r.open(options.type, options.url, true);
-
+        
         setTimeout(function(){
             done = true;
         }, options.timeout);
-
+        
         r.onreadystatechange = function()
         {
             if ( r.readyState == 4 && ! done )
@@ -674,37 +673,38 @@ var tim = (function(){
                 {
                     options.onError();
                 }
-
+                
                 options.onComplete();
-
+                
                 r = null;
             }
         }
-
+        
         r.send();
     }
-
+    
     function ajaxSuccess( r )
     {
         try {
             return ! r.status && location.protocol == "file:" ||
                 ( r.status >= 200 && r.status < 300 ) ||
-                r.status == 304 ||
+                r.status == 304 || 
                 navigator.userAgent.indexOf("Safari") >= 0 && typeof r.status == 'undefined';
+                // could take out safari check here but better to keep it cross browser I think.
         } catch(e) {}
         return false;
     }
-
+    
     function ajaxData( r, type )
     {
         var ct = r.getResponseHeader('content-type'),
             data = ! type && ct && ct.indexOf('xml') >= 0;
-
+        
         data = type == 'xml' || data ? r.responseXML : r.responseText;
         if ( type == 'script' ) eval.call(window, data);
         return data;
     }
-
+    
     function getViewportDimensions()
     {
         return {
@@ -712,22 +712,23 @@ var tim = (function(){
             height: window.innerHeight
         }
     }
-
+    
     function prepSource( source )
     {
         return source.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
     }
-
+    
     function trim(str)
     {
         return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     }
-
+    
     function isArray( obj )
     {
         return toString.call(obj) === "[object Array]";
     }
-
+    
+    // merge two arrays
     function merge( first, second )
     {
         var i = first.length,
@@ -752,16 +753,18 @@ var tim = (function(){
 
         return first;
     }
-
-
+    
+    /// some iphone/ipod/ipad specific helpers
+    
     function hideURLBar()
     {
 		setTimeout(function() {
 			window.scrollTo(0, 1);
 		}, 0);
 	}
-
-
+    
+    // kick things off...
+        
     snoopy.init();
-
+  
 })( window, document );
