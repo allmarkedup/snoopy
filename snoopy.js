@@ -342,35 +342,35 @@
     };
 
 
-var tim = (function(){
-    var starts  = "{{",
-        ends    = "}}",
-        path    = "[a-z0-9_][\\.a-z0-9_]*", // e.g. config.person.name
-        pattern = new RegExp(starts + "("+ path +")" + ends, "gim"),
-        length  = "length",
-        undef;
+    var tim = (function(){
+        var starts  = "{{",
+            ends    = "}}",
+            path    = "[a-z0-9_][\\.a-z0-9_]*", // e.g. config.person.name
+            pattern = new RegExp(starts + "("+ path +")" + ends, "gim"),
+            length  = "length",
+            undef;
 
-    return function(template, data){
-        return template.replace(pattern, function(tag){
-            var ref = tag.slice(starts[length], 0 - ends[length]),
-                path = ref.split("."),
-                len = path[length],
-                lookup = data,
-                i = 0;
+        return function(template, data){
+            return template.replace(pattern, function(tag){
+                var ref = tag.slice(starts[length], 0 - ends[length]),
+                    path = ref.split("."),
+                    len = path[length],
+                    lookup = data,
+                    i = 0;
 
-            for (; i < len; i++){
-                if (lookup === undef){
-                    break;
+                for (; i < len; i++){
+                    if (lookup === undef){
+                        break;
+                    }
+                    lookup = lookup[path[i]];
+
+                    if (i === len - 1){
+                        return lookup;
+                    }
                 }
-                lookup = lookup[path[i]];
-
-                if (i === len - 1){
-                    return lookup;
-                }
-            }
-        });
-    };
-}());
+            });
+        };
+    }());
 
     /*
      * 'snoopQuery' - mini jQuery-style DOM helper functions.
@@ -641,125 +641,125 @@ var tim = (function(){
     })();
 
 
-function ajax( options )
-{
-    options = {
-        type        : options.type          || 'GET',
-        url         : options.url           || '',
-        timeout     : options.timeout       || 5000,
-        onComplete  : options.onComplete    || function(){},
-        onError     : options.onError       || function(){},
-        onSuccess   : options.onSuccess     || function(){},
-        data        : options.data          || ''
-    }
-
-    var r    = new XMLHttpRequest(),
-        done = false;
-
-    r.open(options.type, options.url, true);
-
-    setTimeout(function(){
-        done = true;
-    }, options.timeout);
-
-    r.onreadystatechange = function()
+    function ajax( options )
     {
-        if ( r.readyState == 4 && ! done )
+        options = {
+            type        : options.type          || 'GET',
+            url         : options.url           || '',
+            timeout     : options.timeout       || 5000,
+            onComplete  : options.onComplete    || function(){},
+            onError     : options.onError       || function(){},
+            onSuccess   : options.onSuccess     || function(){},
+            data        : options.data          || ''
+        }
+
+        var r    = new XMLHttpRequest(),
+            done = false;
+
+        r.open(options.type, options.url, true);
+
+        setTimeout(function(){
+            done = true;
+        }, options.timeout);
+
+        r.onreadystatechange = function()
         {
-            if ( ajaxSuccess( r ) )
+            if ( r.readyState == 4 && ! done )
             {
-                options.onSuccess( ajaxData( r, options.type ) );
+                if ( ajaxSuccess( r ) )
+                {
+                    options.onSuccess( ajaxData( r, options.type ) );
+                }
+                else
+                {
+                    options.onError();
+                }
+
+                options.onComplete();
+
+                r = null;
             }
-            else
+        }
+
+        r.send();
+    }
+
+    function ajaxSuccess( r )
+    {
+        try {
+            return ! r.status && location.protocol == "file:" ||
+                ( r.status >= 200 && r.status < 300 ) ||
+                r.status == 304 ||
+                navigator.userAgent.indexOf("Safari") >= 0 && typeof r.status == 'undefined';
+        } catch(e) {}
+        return false;
+    }
+
+    function ajaxData( r, type )
+    {
+        var ct = r.getResponseHeader('content-type'),
+            data = ! type && ct && ct.indexOf('xml') >= 0;
+
+        data = type == 'xml' || data ? r.responseXML : r.responseText;
+        if ( type == 'script' ) eval.call(window, data);
+        return data;
+    }
+
+    function getViewportDimensions()
+    {
+        return {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+    }
+
+    function prepSource( source )
+    {
+        return source.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
+    }
+
+    function trim(str)
+    {
+        return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+    }
+
+    function isArray( obj )
+    {
+        return toString.call(obj) === "[object Array]";
+    }
+
+    function merge( first, second )
+    {
+        var i = first.length,
+            j = 0;
+
+        if ( typeof second.length === "number" )
+        {
+            for ( var l = second.length; j < l; j++ )
             {
-                options.onError();
+                first[i++] = second[j];
             }
-
-            options.onComplete();
-
-            r = null;
         }
-    }
-
-    r.send();
-}
-
-function ajaxSuccess( r )
-{
-    try {
-        return ! r.status && location.protocol == "file:" ||
-            ( r.status >= 200 && r.status < 300 ) ||
-            r.status == 304 ||
-            navigator.userAgent.indexOf("Safari") >= 0 && typeof r.status == 'undefined';
-    } catch(e) {}
-    return false;
-}
-
-function ajaxData( r, type )
-{
-    var ct = r.getResponseHeader('content-type'),
-        data = ! type && ct && ct.indexOf('xml') >= 0;
-
-    data = type == 'xml' || data ? r.responseXML : r.responseText;
-    if ( type == 'script' ) eval.call(window, data);
-    return data;
-}
-
-function getViewportDimensions()
-{
-    return {
-        width: window.innerWidth,
-        height: window.innerHeight
-    }
-}
-
-function prepSource( source )
-{
-    return source.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
-}
-
-function trim(str)
-{
-    return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
-
-function isArray( obj )
-{
-    return toString.call(obj) === "[object Array]";
-}
-
-function merge( first, second )
-{
-    var i = first.length,
-        j = 0;
-
-    if ( typeof second.length === "number" )
-    {
-        for ( var l = second.length; j < l; j++ )
+        else
         {
-            first[i++] = second[j];
+            while ( second[j] !== undefined )
+            {
+                first[i++] = second[j++];
+            }
         }
+
+        first.length = i;
+
+        return first;
     }
-    else
+
+
+    function hideURLBar()
     {
-        while ( second[j] !== undefined )
-        {
-            first[i++] = second[j++];
-        }
+    	setTimeout(function() {
+    		window.scrollTo(0, 1);
+    	}, 0);
     }
-
-    first.length = i;
-
-    return first;
-}
-
-
-function hideURLBar()
-{
-	setTimeout(function() {
-		window.scrollTo(0, 1);
-	}, 0);
-}
 
     snoopy.init(); /* kick things off... */
 
