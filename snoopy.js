@@ -641,127 +641,126 @@ var tim = (function(){
     })();
 
 
-    function ajax( options )
+function ajax( options )
+{
+    options = {
+        type        : options.type          || 'GET',
+        url         : options.url           || '',
+        timeout     : options.timeout       || 5000,
+        onComplete  : options.onComplete    || function(){},
+        onError     : options.onError       || function(){},
+        onSuccess   : options.onSuccess     || function(){},
+        data        : options.data          || ''
+    }
+
+    var r    = new XMLHttpRequest(),
+        done = false;
+
+    r.open(options.type, options.url, true);
+
+    setTimeout(function(){
+        done = true;
+    }, options.timeout);
+
+    r.onreadystatechange = function()
     {
-        options = {
-            type        : options.type          || 'GET',
-            url         : options.url           || '',
-            timeout     : options.timeout       || 5000,
-            onComplete  : options.onComplete    || function(){},
-            onError     : options.onError       || function(){},
-            onSuccess   : options.onSuccess     || function(){},
-            data        : options.data          || ''
-        }
-
-        var r    = new XMLHttpRequest(),
-            done = false;
-
-        r.open(options.type, options.url, true);
-
-        setTimeout(function(){
-            done = true;
-        }, options.timeout);
-
-        r.onreadystatechange = function()
+        if ( r.readyState == 4 && ! done )
         {
-            if ( r.readyState == 4 && ! done )
+            if ( ajaxSuccess( r ) )
             {
-                if ( ajaxSuccess( r ) )
-                {
-                    options.onSuccess( ajaxData( r, options.type ) );
-                }
-                else
-                {
-                    options.onError();
-                }
-
-                options.onComplete();
-
-                r = null;
+                options.onSuccess( ajaxData( r, options.type ) );
             }
-        }
+            else
+            {
+                options.onError();
+            }
 
-        r.send();
-    }
+            options.onComplete();
 
-    function ajaxSuccess( r )
-    {
-        try {
-            return ! r.status && location.protocol == "file:" ||
-                ( r.status >= 200 && r.status < 300 ) ||
-                r.status == 304 ||
-                navigator.userAgent.indexOf("Safari") >= 0 && typeof r.status == 'undefined';
-        } catch(e) {}
-        return false;
-    }
-
-    function ajaxData( r, type )
-    {
-        var ct = r.getResponseHeader('content-type'),
-            data = ! type && ct && ct.indexOf('xml') >= 0;
-
-        data = type == 'xml' || data ? r.responseXML : r.responseText;
-        if ( type == 'script' ) eval.call(window, data);
-        return data;
-    }
-
-    function getViewportDimensions()
-    {
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight
+            r = null;
         }
     }
 
-    function prepSource( source )
-    {
-        return source.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
+    r.send();
+}
+
+function ajaxSuccess( r )
+{
+    try {
+        return ! r.status && location.protocol == "file:" ||
+            ( r.status >= 200 && r.status < 300 ) ||
+            r.status == 304 ||
+            navigator.userAgent.indexOf("Safari") >= 0 && typeof r.status == 'undefined';
+    } catch(e) {}
+    return false;
+}
+
+function ajaxData( r, type )
+{
+    var ct = r.getResponseHeader('content-type'),
+        data = ! type && ct && ct.indexOf('xml') >= 0;
+
+    data = type == 'xml' || data ? r.responseXML : r.responseText;
+    if ( type == 'script' ) eval.call(window, data);
+    return data;
+}
+
+function getViewportDimensions()
+{
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
     }
+}
 
-    function trim(str)
+function prepSource( source )
+{
+    return source.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;');
+}
+
+function trim(str)
+{
+    return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+
+function isArray( obj )
+{
+    return toString.call(obj) === "[object Array]";
+}
+
+function merge( first, second )
+{
+    var i = first.length,
+        j = 0;
+
+    if ( typeof second.length === "number" )
     {
-        return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-    }
-
-    function isArray( obj )
-    {
-        return toString.call(obj) === "[object Array]";
-    }
-
-    function merge( first, second )
-    {
-        var i = first.length,
-            j = 0;
-
-        if ( typeof second.length === "number" )
+        for ( var l = second.length; j < l; j++ )
         {
-            for ( var l = second.length; j < l; j++ )
-            {
-                first[i++] = second[j];
-            }
+            first[i++] = second[j];
         }
-        else
+    }
+    else
+    {
+        while ( second[j] !== undefined )
         {
-            while ( second[j] !== undefined )
-            {
-                first[i++] = second[j++];
-            }
+            first[i++] = second[j++];
         }
-
-        first.length = i;
-
-        return first;
     }
 
+    first.length = i;
 
-    function hideURLBar()
-    {
-		setTimeout(function() {
-			window.scrollTo(0, 1);
-		}, 0);
-	}
+    return first;
+}
 
 
-    snoopy.init();
+function hideURLBar()
+{
+	setTimeout(function() {
+		window.scrollTo(0, 1);
+	}, 0);
+}
+
+    snoopy.init(); /* kick things off... */
 
 })( window, document );
