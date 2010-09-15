@@ -353,7 +353,7 @@
     
     //////////// HELPER FUNCTIONS ////////////////
     
-    //= require "../lib/tim"
+    //= require "lib/tim"
     
     //= require "snoopquery"
     
