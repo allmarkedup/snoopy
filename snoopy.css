@@ -153,6 +153,10 @@
     overflow: hidden;
 }
 
+#snpy .module.empty {
+    display: none !important;
+}
+
 #snpy .module h2 {
     font-size: 14px !important;
     font-weight: normal !important;
@@ -166,23 +170,7 @@
 }
 
 #snpy_overview {
-    max-width: 400px !important;
-}
-
-/* key/val pair lists */
-
-#snpy dt {
-    display: inline-block !important;
-    float: left !important;
-    width: 100px !important;
-    margin-bottom: 8px !important;
-    color: #888 !important;
-}
-
-#snpy dd {
-    display: inline-block !important;
-    margin-bottom: 8px !important;
-    width: 260px !important;
+    max-width: 300px !important;
 }
 
 /* test result lists */
@@ -192,21 +180,53 @@
 }
 
 #snpy .tests li {
-    margin-bottom: 8px !important;
-    display: inline-block !important;
-    min-width: 180px !important;
+    margin-bottom: 2px !important;
+    padding: 3px 5px !important;
+}
+
+#snpy .tests li:hover {
+    background-color: #4F4F4F !important;
 }
 
 #snpy .tests li.negative {
     color: #888 !important;
+    display: none !important;
 }
 
-#snpy .tests li.negative:before {
+#snpy .output_version .tests li.negative .test_for:before {
     content: "\2715 \00a0" !important;
 }
 
-#snpy .tests li.positive:before {
+#snpy .output_version .tests li.positive .test_for:before {
     content: "\2713 \00a0" !important;
+}
+
+#snpy p.no_results {
+    color: #888 !important;
+    margin-bottom: 8px !important;
+}
+
+#snpy p.no_results:before {
+    content: "\2715 \00a0" !important;
+}
+
+#snpy .test_for {
+    display: inline-block !important;
+    width: 50% !important;
+}
+
+#snpy .test_result {
+    display: inline-block !important;
+    width: 48% !important;
+    text-align: right !important;
+}
+
+#snpy .output_version .test_result.true:before {
+    content: 'v';
+}
+
+#snpy .true_no_detail {
+    color: #888 !important;
 }
 
 /* source code viewers */
