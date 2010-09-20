@@ -318,7 +318,7 @@
                 'YUI' : [
                     {
                         type : 'custom',
-                        test : function(){ return win.YAHOO || win.YUI ? true : false; } // need to figure out how to get YUI version
+    					test : function(){ return win.YAHOO ? win.YAHOO.VERSION : false; }
                     }
                 ],
                 'Google Closure' : [
@@ -365,7 +365,19 @@
                         type : 'meta',
                         test : { name : 'generator', match : /joomla\!?\s?([\d.]*)/i }
                     }
-                ]
+                ],
+    			'Blogger' : [
+    				{
+    					type : 'meta',
+    					test : { name : 'generator', match : /blogger/i }
+    				}
+    			],
+    			'MovableType' : [
+    				{
+    					type : 'meta',
+    					test : { name : 'generator', match : /Movable Type Pro ([\d.]*)/i }
+    				}
+    			]
             }
 
         };
@@ -401,7 +413,13 @@
                         type : 'custom',
                         test : function(){ return !! win.clicky; }
                     }
-                ]
+                ],
+    			'Open Web Analytics' : [
+    				{
+    					type : 'custom',
+    					test : function() { return !! win.OWA; }
+    				}
+    			]
             }
 
         };
