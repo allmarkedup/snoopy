@@ -16,7 +16,7 @@
         
     config = {
         NAME            : 'Snoopy',
-        VERSION         : '0.1',
+        VERSION         : '0.2',
         START_OFFSET    : { top : '0', left : '0' }
     };
     
