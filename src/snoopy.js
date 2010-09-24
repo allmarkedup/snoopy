@@ -175,9 +175,9 @@
 </div>\
 <div class=\"body\">\
     <ul class=\"menu tabs\">\
-        <li class=\"active\"><a href=\"#snpy_overview\">Overview</a></li>\
-        <li><a href=\"#snpy_rawsource\">View Source</a></li>\
-        <li><a href=\"#snpy_gensource\"><span class=\"no320\">View</span> Generated Source</a></li>\
+        <li class=\"active\"><a href=\"#snpy_overview\">overview</a></li>\
+        <li><a href=\"#snpy_rawsource\">view source</a></li>\
+        <li><a href=\"#snpy_gensource\"><span class=\"no320\">view</span> generated gource</a></li>\
     </ul>\
     <div class=\"panels\">\
         <div id=\"snpy_overview\" class=\"panel active\">{{modules}}</div>\
