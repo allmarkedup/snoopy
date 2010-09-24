@@ -31,5 +31,5 @@ I am not currently intending to support any versions of IE (although IE9 *may* b
 Contributors
 ------------
 
-Mark Perkins (owner)
-James Brooks [http://github.com/jbrooksuk](http://github.com/jbrooksuk)
+* Mark Perkins (owner)
+* James Brooks [http://github.com/jbrooksuk](http://github.com/jbrooksuk)
