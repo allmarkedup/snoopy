@@ -7,6 +7,8 @@ Using the bookmarklet will give you an overlay featuring information that Snoopy
 
 For full details and installation instructions please see [http://snoopy.allmarkedup.com](http://snoopy.allmarkedup.com/)
 
+Canonical repo URL: [http://github.com/allmarkedup/snoopy](http://github.com/allmarkedup/snoopy)
+
 
 Built with...
 -------------
@@ -24,3 +26,10 @@ Browser Support
 This is intended to be used in modern, mobile browsers, although it's intended to work in modern *desktop* browsers too. At the moment it is only really being actively tested in Mobile Safari, although I'll hopefully get some more complete browser testing done at some point soon.
 
 I am not currently intending to support any versions of IE (although IE9 *may* be supported in the future... but don't hold your breath).
+
+
+Contributors
+------------
+
+Mark Perkins (owner)
+James Brooks [http://github.com/jbrooksuk](http://github.com/jbrooksuk)
