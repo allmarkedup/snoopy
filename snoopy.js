@@ -200,10 +200,12 @@
             pageinfo     = {},
             test_runner = {},
             results     = {},
+            indexed_results = {},
             scripts     = doc.getElementsByTagName("script"),
             metas       = doc.getElementsByTagName("meta"),
             html        = doc.documentElement.outerHTML || doc.documentElement.innerHTML,
-            doctype     = doc.doctype;
+            doctype     = doc.doctype,
+            has_run     = false;
 
         metas = (function(){
             for ( var meta, temp = [], i = -1; meta = metas[++i]; )
@@ -332,7 +334,13 @@
                         type : 'custom',
                         test : function(){ return win.Modernizr ? win.Modernizr._version : false; } // need to figure out how to get YUI version
                     }
-                ]
+                ],
+    			'Raphael' : [
+    				{
+    					type : 'custom',
+    					test : function(){ return win.Raphael ? win.Raphael.version : false; }
+    				}
+    			]
             }
         };
 
@@ -376,6 +384,12 @@
     				{
     					type : 'meta',
     					test : { name : 'generator', match : /Movable Type Pro ([\d.]*)/i }
+    				}
+    			],
+    			'Drupal' : [
+    				{
+    					type : 'custom',
+    					test : function() { return win.Drupal ? true : false; } // no version in js obj
     				}
     			]
             }
@@ -566,12 +580,8 @@
             return true;
         }
 
-        /* publicly available methods */
-
-        sniff.run = function()
+        var forEachTest = function( callback )
         {
-            if ( ! empty(results) ) return results; // tests have already been run.
-
             for ( group in detect )
             {
                 if ( detect.hasOwnProperty(group) )
@@ -580,19 +590,62 @@
                     {
                         if ( detect[group].tests.hasOwnProperty(test) )
                         {
-                            results[group] = results[group] || {};
-                            results[group].results = results[group].results || {};
-
-                            results[group].description = detect[group].description;
-                            results[group].return_type = detect[group].return_type;
-
-                            results[group]['results'][test] = run( detect[group].tests[test] );
+                            if ( callback( group, test ) === false ) return;
                         }
                     }
                 }
             }
+        }
 
+        var addToResults = function( group, test, res )
+        {
+
+            results[group] = results[group] || {};
+            results[group].results = results[group].results || {};
+
+            results[group].description = detect[group].description;
+            results[group].return_type = detect[group].return_type;
+
+            results[group]['results'][test] = res;
+
+
+            indexed_results[test.toLowerCase()] = res;
+        }
+
+        /* publicly available methods */
+
+        sniff.results = function(){
             return results;
+        };
+
+        sniff.check = function( to_test )
+        {
+            to_test = to_test.toLowerCase();
+            if ( indexed_results[to_test] != undefined ) return indexed_results[to_test];
+            else {
+
+                forEachTest(function( group, test ){
+
+                    if ( test.toLowerCase() === to_test )
+                    {
+                        addToResults( group, test, run( detect[group].tests[test] ) );
+                        return false; // break out of forEachTest loop
+                    }
+
+                });
+            }
+            return indexed_results[to_test];
+        };
+
+        sniff.run = function()
+        {
+            forEachTest(function( group, test ){
+
+                addToResults( group, test, run( detect[group].tests[test] ) );
+
+            });
+
+            return sniff.results();
         };
 
         return sniff;

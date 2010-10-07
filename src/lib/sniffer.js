@@ -10,10 +10,12 @@
             pageinfo     = {},
             test_runner = {},
             results     = {},
+            indexed_results = {},
             scripts     = doc.getElementsByTagName("script"),
             metas       = doc.getElementsByTagName("meta"),
             html        = doc.documentElement.outerHTML || doc.documentElement.innerHTML,
-            doctype     = doc.doctype;
+            doctype     = doc.doctype,
+            has_run     = false;
 
         // discard meta tags that aren't useful
         metas = (function(){
@@ -145,7 +147,13 @@
                         type : 'custom',
                         test : function(){ return win.Modernizr ? win.Modernizr._version : false; } // need to figure out how to get YUI version
                     }
-                ]
+                ],
+    			'Raphael' : [
+    				{
+    					type : 'custom',
+    					test : function(){ return win.Raphael ? win.Raphael.version : false; }
+    				}
+    			]
             }
         };
 
@@ -189,6 +197,12 @@
     				{
     					type : 'meta',
     					test : { name : 'generator', match : /Movable Type Pro ([\d.]*)/i }
+    				}
+    			],
+    			'Drupal' : [
+    				{
+    					type : 'custom',
+    					test : function() { return win.Drupal ? true : false; } // no version in js obj
     				}
     			]
             }
@@ -385,13 +399,10 @@
             for ( var name in obj ) return false;
             return true;
         }
-
-        /* publicly available methods */
-
-        sniff.run = function()
+    
+        // utility function for iterating over the tests
+        var forEachTest = function( callback )
         {
-            if ( ! empty(results) ) return results; // tests have already been run.
-
             for ( group in detect )
             {
                 if ( detect.hasOwnProperty(group) )
@@ -400,19 +411,67 @@
                     {
                         if ( detect[group].tests.hasOwnProperty(test) )
                         {
-                            results[group] = results[group] || {};
-                            results[group].results = results[group].results || {};
-
-                            results[group].description = detect[group].description;
-                            results[group].return_type = detect[group].return_type;
-
-                            results[group]['results'][test] = run( detect[group].tests[test] );
+                            if ( callback( group, test ) === false ) return;
                         }
                     }
                 }
             }
+        }
+    
+        var addToResults = function( group, test, res )
+        {
+            // add results to group results object
+        
+            results[group] = results[group] || {};
+            results[group].results = results[group].results || {};
 
+            results[group].description = detect[group].description;
+            results[group].return_type = detect[group].return_type;
+
+            results[group]['results'][test] = res;
+        
+            // add the result to the name-index results object
+        
+            indexed_results[test.toLowerCase()] = res;
+        }
+
+        /* publicly available methods */
+    
+        // return results of all checks run so far 
+        sniff.results = function(){
             return results;
+        };
+    
+        // perform an individual check
+        sniff.check = function( to_test )
+        {
+            to_test = to_test.toLowerCase();
+            if ( indexed_results[to_test] != undefined ) return indexed_results[to_test];
+            else {
+            
+                forEachTest(function( group, test ){
+                
+                    if ( test.toLowerCase() === to_test )
+                    {
+                        addToResults( group, test, run( detect[group].tests[test] ) );
+                        return false; // break out of forEachTest loop
+                    }
+                
+                });
+            }
+            return indexed_results[to_test];
+        };
+    
+        // run or re-run all checks
+        sniff.run = function()
+        {
+            forEachTest(function( group, test ){
+            
+                addToResults( group, test, run( detect[group].tests[test] ) );
+                    
+            });      
+
+            return sniff.results();
         };
 
         return sniff;
