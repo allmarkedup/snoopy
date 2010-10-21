@@ -169,7 +169,7 @@
     <ul class=\"menu tabs\">\
         <li class=\"active\"><a href=\"#snpy_overview\">overview</a></li>\
         <li><a href=\"#snpy_rawsource\">view source</a></li>\
-        <li><a href=\"#snpy_gensource\"><span class=\"no320\">view</span> generated gource</a></li>\
+        <li><a href=\"#snpy_gensource\"><span class=\"no320\">view</span> generated source</a></li>\
     </ul>\
     <div class=\"panels\">\
         <div id=\"snpy_overview\" class=\"panel active\">{{modules}}</div>\
