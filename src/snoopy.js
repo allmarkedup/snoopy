@@ -96,7 +96,7 @@
                 type        : 'GET',
                 url         : location.href,
                 onSuccess   : function( data ){
-                     self.raw_source = prepSource(data);
+                     self.raw_source = floodlight(floodlight.decode(data));
                      $('#snpy_rawsource code.html').html(self.raw_source);
                 }
             }); 
@@ -104,7 +104,7 @@
         
         getGeneratedSource : function()
         {
-            this.gen_source = prepSource(doc.documentElement.innerHTML.toString());
+            this.gen_source = floodlight(floodlight.decode(doc.documentElement.innerHTML.toString()));
         },
         
         bindEvents : function( bindStack )
@@ -200,6 +200,8 @@
     //= require "lib/sniffer"
     
     //= require "lib/tim"
+    
+    //= require "lib/floodlight"
     
     //= require "snoopquery"
     
